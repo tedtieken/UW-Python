@@ -23,7 +23,7 @@ if __name__ == '__main__':
     else:
         arg1 = sys.argv[1]
         arg2 = sys.argv[2]
-        host = 'localhost'
+        host = 'block115401-q6x.blueboxgrid.com'
         port = 50000
         
         server_addition(host, port, arg1, arg2)
