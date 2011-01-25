@@ -18,7 +18,7 @@
 import os, socket, sys, subprocess
 
 local_defaults = ['127.0.0.1', '8080']
-defaults = ['', '80']
+defaults = ['', '8080']
 mime_types = {'.jpg' : 'image/jpg', 
              '.gif' : 'image/gif', 
              '.png' : 'image/png',
@@ -133,14 +133,14 @@ def get_content(uri):
                 return (200, 'text/html', list_directory(uri))
             else:
                 return (301, uri + '/')
+        # Only gathers the root, proof of concept.
         if uri == '/django/':
             # WSGI Stuff goes here
+            # This is a very incomplete implementation
             from django.core.handlers.wsgi import WSGIHandler
             application = WSGIHandler()
-            #dsm = os.path.join(os.path.realpath(os.path.dirname(__file__)), 'hello', 'settings')
             dsm = 'hello.settings'
             os.environ['DJANGO_SETTINGS_MODULE'] = dsm
-            #print dsm
             if os.path.realpath(os.path.dirname(__file__)) not in sys.path:
                 sys.path.append(os.path.realpath(os.path.dirname(__file__)))
             iterable = application({'DJANGO_SETTINGS_MODULE': dsm, 'REQUEST_METHOD':'GET', 'SERVER_NAME':'NOT_IMPLEMENTED', 'SERVER_PORT':'NOT_IMPLEMENTED'}, start_response)
