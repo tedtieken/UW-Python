@@ -88,12 +88,12 @@ def get_request(stream):
     method = None
     while True:
         line = stream.readline()
-        print line
+        #print line
         if not line.strip(): 
             break
         elif not method: 
             method, uri, protocol = line.split()
-    print uri
+    #print uri
     return uri
 
 def list_directory(uri):
@@ -115,6 +115,7 @@ def get_time():
 
 
 def start_response(status, headers):
+    # This is so bad.  Nasty Nasty Hack.
     pass
     
 
@@ -131,16 +132,21 @@ def get_content(uri):
                 return (200, 'text/html', list_directory(uri))
             else:
                 return (301, uri + '/')
-        else:
+        elif uri == '/django/':
             # WSGI Stuff goes here
             from django.core.handlers.wsgi import WSGIHandler
             application = WSGIHandler()
-            iterable = application({'DJANGO_SETTINGS_MODULE': 'hello.settings'}, start_response)
+            #dsm = os.path.join(os.path.realpath(os.path.dirname(__file__)), 'hello', 'settings')
+            dsm = 'hello.settings'
+            os.environ['DJANGO_SETTINGS_MODULE'] = dsm
+            #print dsm
+            if os.path.realpath(os.path.dirname(__file__)) not in sys.path:
+                sys.path.append(os.path.realpath(os.path.dirname(__file__)))
+            iterable = application({'DJANGO_SETTINGS_MODULE': dsm, 'REQUEST_METHOD':'GET', 'SERVER_NAME':'NOT_IMPLEMENTED', 'SERVER_PORT':'NOT_IMPLEMENTED'}, start_response)
             body = ""
-            for data in iterable
-              body += data
+            for data in iterable:
+              body += str(data)
             return (200, 'text/html', body)          
-                
         elif uri == '/time/':
             return (200, 'text/html', get_time())
         elif uri == '/kill/':
