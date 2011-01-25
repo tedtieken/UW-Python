@@ -17,7 +17,8 @@
 
 import os, socket, sys, subprocess
 
-defaults = ['127.0.0.1', '8080']
+local_defaults = ['127.0.0.1', '8080']
+defaults = ['', '80']
 mime_types = {'.jpg' : 'image/jpg', 
              '.gif' : 'image/gif', 
              '.png' : 'image/png',
@@ -124,15 +125,15 @@ def get_content(uri):
     try:
         path = '.' + uri
         if os.path.isfile(path):
-            if path.split(".")[-1] == "py":
-                return(200, 'text/html', subprocess.Popen(['python', path], stdout=subprocess.PIPE).stdout.read())
+            #if path.split(".")[-1] == "py":
+            #    return(200, 'text/html', subprocess.Popen(['python', path], stdout=subprocess.PIPE).stdout.read())
             return (200, get_mime(uri), get_file(path))
         if os.path.isdir(path):
             if(uri.endswith('/')):
                 return (200, 'text/html', list_directory(uri))
             else:
                 return (301, uri + '/')
-        elif uri == '/django/':
+        if uri == '/django/':
             # WSGI Stuff goes here
             from django.core.handlers.wsgi import WSGIHandler
             application = WSGIHandler()
