@@ -113,6 +113,11 @@ def get_time():
     import time
     return TIME_HTML % (time.time(), time.time())
 
+
+def start_response(status, headers):
+    pass
+    
+
 def get_content(uri):
     print 'fetching:', uri
     try:
@@ -126,6 +131,16 @@ def get_content(uri):
                 return (200, 'text/html', list_directory(uri))
             else:
                 return (301, uri + '/')
+        else:
+            # WSGI Stuff goes here
+            from django.core.handlers.wsgi import WSGIHandler
+            application = WSGIHandler()
+            iterable = application({'DJANGO_SETTINGS_MODULE': 'hello.settings'}, start_response)
+            body = ""
+            for data in iterable
+              body += data
+            return (200, 'text/html', body)          
+                
         elif uri == '/time/':
             return (200, 'text/html', get_time())
         elif uri == '/kill/':
