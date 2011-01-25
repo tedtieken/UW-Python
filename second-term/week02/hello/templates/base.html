@@ -1,0 +1,43 @@
+{% block doctype %}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">{% endblock doctype %}
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+{% block head %}
+<head>
+    {% block meta %}
+    <meta http-equiv="content-type" content="{% block meta.content-type %}text/html;charset=UTF-8{% endblock meta.content-type %}" />
+    <meta name="description" content="{% block meta.description %}{% endblock meta.description %}" />
+    <meta name="keywords" content="{% block meta.keywords %}{% endblock meta.keywords %}" />
+    {% block meta.custom %}{% endblock meta.custom %}
+    {% endblock meta %}
+    
+    <title>{% block title %}Hello World{% endblock title %}</title>
+    
+    {% block css %}
+    {% block css.custom %}{% endblock css.custom %}
+    {% endblock css%}
+    
+    {% block js %}
+    {% block js.custom %}{% endblock js.custom %}
+    {% endblock js%}
+</head>
+{% endblock head %}
+
+{% block body %}
+<body>
+ {% block messages %}
+  {% if messages %}
+   <div class="sub-container messages">
+     {% for message in messages %}
+      <div {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</div>
+     {% endfor %}
+   </div>
+  {% endif %}
+ {% endblock messages %}
+    <div id="content">
+     {% block content %}{% endblock content %} 
+    </div>
+</body>
+{% endblock body %}
+</html> 
+ 
+
+
