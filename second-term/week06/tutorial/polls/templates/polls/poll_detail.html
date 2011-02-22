@@ -1,0 +1,30 @@
+{% extends 'base_nonav.html' %}
+
+{% block title %}{{block.super}} - Poll - {{poll}} {% endblock title %}
+
+{% block css.extra %}
+{{block.super}}
+<link type="text/css" rel="stylesheet" href="/assets/css/index.css" />
+{% endblock %}
+
+
+
+
+{% block content %}
+
+<div class="post">
+    <p class="post-title"><a href="{% url poll_detail poll.id %}">{{poll}}</a> - {{poll.total_votes}} vote{{ poll.total_votes|pluralize }}</p>
+    <div class="prepend-1">
+    <ul>
+        {% for choice in poll.choice_set.all %}
+        <li>{{ choice.choice }}</li>
+        {% empty %}
+        <li> No choices </li>
+        {% endfor %}
+        <li><a href="{% url poll_vote poll.id %}">vote</a> - <a href="{% url poll_results poll.id %}">see results</a></li>
+    </ul>
+    </div>
+</div>
+
+
+{% endblock content %}

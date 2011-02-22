@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>{% block title %}Magazine Template{% endblock %}</title>
+		{% block meta %}
+        <meta http-equiv="content-type" content="{% block meta.content-type %}text/html;charset=UTF-8{% endblock meta.content-type %}" />
+        <meta name="description" content="{% block meta.description %}{% endblock meta.description %}" />
+        <meta name="keywords" content="{% block meta.keywords %}{% endblock meta.keywords %}" />
+        {% block meta.extra %}{% endblock meta.extra %}
+        {% endblock meta %}
+        
+        {% block css %}
+        <!--BLUEPRINT FRAMEWORK-->
+		<link rel="stylesheet" href="{{ MEDIA_URL }}css/blueprint/screen.css" type="text/css" media="screen, projection">
+		<link rel="stylesheet" href="{{ MEDIA_URL }}css/blueprint/print.css" type="text/css" media="print">
+		<!--[if lt IE 8]><link rel="stylesheet" href="{{ MEDIA_URL }}css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
+		
+		<link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}css/base.css" />
+        
+        <!-- LOAD PAGE-SPECIFIC CSS -->
+        {% block css.extra %}{% endblock css.extra %}
+        {% endblock css %}
+		
+		{% block js %}
+        <!-- JQUERY FRAMEWORK -->
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+                $('p.preview-text a').hide();
+                $('p.preview-text').hover(function(){
+                    $(this).find('a').show();
+                }, function(){
+                    $(this).find('a').hide();
+                });                
+			});
+		</script>
+		{% block js.extra %}{% endblock js.extra %}
+		{% endblock js %}
+		
+		{% block head.extra %}
+		{% endblock head.extra %}
+	</head>	
+
+    {% block body %}
+	<body>  
+        
+	    {% block header %}
+        <!-- HEADER -->
+        <div id="header">
+			<div class="container">
+				<div class="span-12">
+					<span id="current-date">{% now "jS F Y H:i" %}</span>
+				</div>
+				
+				<div id="upper-right-links" class="span-12 last">	
+					<span>
+                        <!--(<a href="/website/core_only/">Core</a>, <a href="/website/core_right/">Core+Right</a>)-->
+                        <a href="/">Home</a> <span class="middot">&middot;</span> 
+                    </span>
+				</div>
+			</div>
+		</div>
+        
+        <!-- LOGO & OPTIONAL AD -->
+        <div class="container">
+            <hr class="space">
+            <div class="span-24"><h1>Tutorial</h1></div>				
+        </div>
+        
+        {% block header.nav %}
+		<!-- MAIN NAVI - CATEGORIES -->
+		<div id="nav-container" class="container">
+        		<div id="main-navi" class="span-24 last">
+        			<ul>
+        				<li class="current"><a href="">Culture</a></li>
+        				<li><a href="">Finance</a></li>
+        				<li><a href="">Lifestyle</a></li>
+        				<li><a href="">News</a></li>
+        				<li><a href="">Sports</a></li>
+        				<li><a href="">Travel</a></li>
+        				<li><a href="">Health</a></li>
+        			</ul>
+        		</div> 
+        </div>
+        {% endblock header.nav %}
+        {% endblock header %}
+        
+        {% block canvas %}
+        <!-- CONTENTS -->
+        <div id="contents" class="container">
+                <div class="span-24 last" style="min-height: 200px;">
+                    {% block content %}<p>ERROR: No contents found for specified URL.</p>{% endblock content %}
+                </div>
+        </div>
+        {% endblock canvas %}            
+	    
+        {% block footer %}
+		{% endblock footer %}
+        <div id="slingshot">
+            <div class="container">
+                {% comment %}
+                You can change or remove the following link, subject to a few conditions.  Please read the license document that came with this package for more information.
+                {% endcomment %}
+                <a href="http://www.djangoslingshot.com">Design by DjangoSlingshot.com</a> 
+            </div>
+        </div>
+	</body>
+	{% endblock body %}		
+</html>

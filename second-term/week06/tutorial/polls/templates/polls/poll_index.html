@@ -1,0 +1,28 @@
+{% extends 'base_nonav.html' %}
+
+{% block title %}{{block.super}} - Poll Index {% endblock title %}
+
+{% block css.extra %}
+{{block.super}}
+<link type="text/css" rel="stylesheet" href="/assets/css/index.css" />
+{% endblock %}
+
+
+
+
+{% block content %}
+<p class="column-title">Recent Polls</p>
+
+{% for poll in polls %}
+<div class="post">
+    <p class="post-title"><a href="{% url poll_detail poll.id %}">{{poll}}</a> - {{poll.total_votes}} vote{{ poll.total_votes|pluralize }}</p>
+
+</div>
+{% empty %}
+<div class="post">
+    <p class="post-title">I'ma so sorry, no polls</p>
+</div>
+
+{% endfor %}
+
+{% endblock content %}
